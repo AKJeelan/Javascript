@@ -173,13 +173,10 @@ Output:
 ["apple", "banana", "mango"];
 ```
 
-# JavaScript `padStart()` and `padEnd()` String Methods
-
-`padStart()` and `padEnd()` are string methods used to add characters to a string until it reaches a specified length.
 
 ---
 
-# 1. `padStart()`
+# 11. `padStart()`
 
 Adds characters to the **beginning** of a string.
 
@@ -226,7 +223,7 @@ Output:
 
 ---
 
-# 2. `padEnd()`
+# 12. `padEnd()`
 
 Adds characters to the **end** of a string.
 
