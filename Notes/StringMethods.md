@@ -173,6 +173,160 @@ Output:
 ["apple", "banana", "mango"];
 ```
 
+# JavaScript `padStart()` and `padEnd()` String Methods
+
+`padStart()` and `padEnd()` are string methods used to add characters to a string until it reaches a specified length.
+
+---
+
+# 1. `padStart()`
+
+Adds characters to the **beginning** of a string.
+
+## Syntax
+
+```javascript
+string.padStart(targetLength, padString)
+```
+
+- `targetLength` → final length of string
+- `padString` → character(s) to add
+
+---
+
+## Example
+
+```javascript
+let num = "5";
+
+console.log(num.padStart(3, "0"));
+```
+
+Output:
+
+```text
+005
+```
+
+---
+
+## Another Example
+
+```javascript
+let text = "Hi";
+
+console.log(text.padStart(6, "*"));
+```
+
+Output:
+
+```text
+****Hi
+```
+
+---
+
+# 2. `padEnd()`
+
+Adds characters to the **end** of a string.
+
+## Syntax
+
+```javascript
+string.padEnd(targetLength, padString)
+```
+
+---
+
+## Example
+
+```javascript
+let num = "5";
+
+console.log(num.padEnd(3, "0"));
+```
+
+Output:
+
+```text
+500
+```
+
+---
+
+## Another Example
+
+```javascript
+let text = "Hi";
+
+console.log(text.padEnd(6, "*"));
+```
+
+Output:
+
+```text
+Hi****
+```
+
+---
+
+# Important Notes
+
+- Original string does NOT change
+- Returns a new string
+- Strings are immutable in JavaScript
+
+---
+
+# Real-World Uses
+
+## Formatting Numbers
+
+```javascript
+let orderId = "25";
+
+console.log(orderId.padStart(5, "0"));
+```
+
+Output:
+
+```text
+00025
+```
+
+---
+
+## Masking Data
+
+```javascript
+let card = "1234";
+
+console.log(card.padStart(8, "*"));
+```
+
+Output:
+
+```text
+****1234
+```
+
+---
+
+# Summary
+
+| Method | Adds Characters |
+|---|---|
+| `padStart()` | Beginning |
+| `padEnd()` | End |
+
+---
+
+# Simple Understanding
+
+```text
+padStart() → add before
+padEnd() → add after
+```
 ---
 
 # Template Literals
