@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resolution Planning Portal</title>
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      body {
+        background: #f4f7fb;
+        color: #1e293b;
+      }
+
+      .app {
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      /* SIDEBAR */
+
+      .sidebar {
+        width: 250px;
+        background: linear-gradient(180deg, #07152c, #0b2347);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        padding: 24px 0;
+      }
+
+      .logo {
+        font-size: 22px;
+        font-weight: 700;
+        padding: 0 24px 30px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .menu {
+        margin-top: 20px;
+        flex: 1;
+      }
+
+      .menu-item {
+        padding: 14px 24px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        cursor: pointer;
+        transition: 0.2s ease;
+        font-size: 15px;
+      }
+
+      .menu-item:hover {
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .menu-item.active {
+        background: #2563eb;
+        border-left: 4px solid #93c5fd;
+      }
+
+      .bottom {
+        padding: 20px 24px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 14px;
+        opacity: 0.8;
+      }
+
+      /* MAIN */
+
+      .main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* TOPBAR */
+
+      .topbar {
+        height: 72px;
+        background: white;
+        border-bottom: 1px solid #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 28px;
+      }
+
+      .top-left h2 {
+        font-size: 24px;
+        font-weight: 700;
+      }
+
+      .top-right {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .year-select {
+        border: 1px solid #dbe3ef;
+        border-radius: 10px;
+        padding: 10px 14px;
+        background: white;
+        cursor: pointer;
+      }
+
+      .profile {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .avatar {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: #2563eb;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+      }
+
+      /* CONTENT */
+
+      .content {
+        padding: 24px;
+        overflow-y: auto;
+        flex: 1;
+      }
+
+      .filters {
+        display: flex;
+        gap: 14px;
+        margin-bottom: 22px;
+      }
+
+      .filters input,
+      .filters select {
+        padding: 12px 14px;
+        border-radius: 10px;
+        border: 1px solid #dbe3ef;
+        background: white;
+        min-width: 220px;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 22px;
+      }
+
+      .card {
+        background: white;
+        border-radius: 18px;
+        padding: 22px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .card-title {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 20px;
+      }
+
+      /* TABLE */
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th {
+        text-align: left;
+        padding-bottom: 16px;
+        color: #64748b;
+        font-size: 14px;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      td {
+        padding: 18px 0;
+        border-bottom: 1px solid #f1f5f9;
+        font-size: 14px;
+      }
+
+      tr:hover {
+        background: #f8fbff;
+      }
+
+      .status {
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+        display: inline-block;
+      }
+
+      .draft {
+        background: #e2e8f0;
+        color: #475569;
+      }
+
+      .submitted {
+        background: #dbeafe;
+        color: #2563eb;
+      }
+
+      .attested {
+        background: #dcfce7;
+        color: #16a34a;
+      }
+
+      /* DETAILS */
+
+      .service-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .badge {
+        background: #dcfce7;
+        color: #16a34a;
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .tabs {
+        display: flex;
+        gap: 24px;
+        border-bottom: 1px solid #e2e8f0;
+        margin-bottom: 24px;
+      }
+
+      .tab {
+        padding-bottom: 12px;
+        cursor: pointer;
+        font-size: 14px;
+        color: #64748b;
+      }
+
+      .tab.active {
+        color: #2563eb;
+        border-bottom: 3px solid #2563eb;
+        font-weight: 600;
+      }
+
+      .section {
+        margin-bottom: 24px;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 18px;
+      }
+
+      .section h4 {
+        margin-bottom: 18px;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .field label {
+        font-size: 13px;
+        color: #475569;
+      }
+
+      .field input,
+      .field select {
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #dbe3ef;
+      }
+
+      .checkbox {
+        margin-top: 18px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        font-size: 14px;
+      }
+
+      .actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 14px;
+        margin-top: 28px;
+      }
+
+      .btn {
+        padding: 12px 22px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+      }
+
+      .btn-outline {
+        background: white;
+        border: 1px solid #cbd5e1;
+      }
+
+      .btn-primary {
+        background: #2563eb;
+        color: white;
+      }
+
+      .btn-secondary {
+        background: #eff6ff;
+        color: #2563eb;
+      }
+
+      @media (max-width: 1200px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="logo">Resolution Portal</div>
+
+        <div class="menu">
+          <div class="menu-item">
+            <i class="fa-solid fa-house"></i>
+            Dashboard
+          </div>
+
+          <div class="menu-item">
+            <i class="fa-solid fa-layer-group"></i>
+            Service Catalog
+          </div>
+
+          <div class="menu-item active">
+            <i class="fa-solid fa-users"></i>
+            Key Personnel
+          </div>
+
+          <div class="menu-item">
+            <i class="fa-solid fa-check"></i>
+            Attestations
+          </div>
+
+          <div class="menu-item">
+            <i class="fa-solid fa-chart-line"></i>
+            Reports
+          </div>
+
+          <div class="menu-item">
+            <i class="fa-solid fa-gear"></i>
+            Admin
+          </div>
+        </div>
+
+        <div class="bottom">Collapse</div>
+      </aside>
+
+      <!-- MAIN -->
+      <main class="main">
+        <!-- TOPBAR -->
+        <div class="topbar">
+          <div class="top-left">
+            <h2>Key Personnel</h2>
+          </div>
+
+          <div class="top-right">
+            <select class="year-select">
+              <option>2026</option>
+              <option>2025</option>
+            </select>
+
+            <div class="profile">
+              <div class="avatar">AK</div>
+
+              <div>
+                <div style="font-weight: 600">Anna Kozlik</div>
+                <div style="font-size: 12px; color: #64748b">Coordinator</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content">
+          <!-- FILTERS -->
+          <div class="filters">
+            <input type="text" placeholder="Search by service..." />
+
+            <select>
+              <option>All Divisions</option>
+              <option>Finance</option>
+              <option>Consumer</option>
+            </select>
+
+            <select>
+              <option>All Status</option>
+              <option>Draft</option>
+              <option>Submitted</option>
+              <option>Attested</option>
+            </select>
+          </div>
+
+          <!-- LAYOUT -->
+          <div class="layout">
+            <!-- LEFT -->
+            <div class="card">
+              <div class="card-title">Services (45)</div>
+
+              <table>
+                <thead>
+                  <tr>
+                    <th>Service</th>
+                    <th>Division</th>
+                    <th>Owner</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <td>Payments Processing</td>
+                    <td>Finance</td>
+                    <td>John Doe</td>
+                    <td>
+                      <span class="status draft"> Draft </span>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>Loan Origination</td>
+                    <td>Consumer</td>
+                    <td>Sarah Wilson</td>
+                    <td>
+                      <span class="status submitted"> Submitted </span>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>Treasury Operations</td>
+                    <td>Finance</td>
+                    <td>David Lee</td>
+                    <td>
+                      <span class="status attested"> Attested </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- RIGHT -->
+            <div class="card">
+              <div class="service-header">
+                <div>
+                  <h2>Payments Processing</h2>
+
+                  <div style="margin-top: 6px; color: #64748b; font-size: 14px">
+                    Finance · Last updated May 12, 2025
+                  </div>
+                </div>
+
+                <div class="badge">High</div>
+              </div>
+
+              <!-- TABS -->
+              <div class="tabs">
+                <div class="tab">Service Information</div>
+
+                <div class="tab active">Key Personnel</div>
+
+                <div class="tab">Comments</div>
+
+                <div class="tab">History</div>
+              </div>
+
+              <!-- PRIMARY -->
+              <div class="section">
+                <h4>Primary Personnel</h4>
+
+                <div class="form-grid">
+                  <div class="field">
+                    <label>Primary Person</label>
+
+                    <select>
+                      <option>John Doe</option>
+                      <option>Mike Brown</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label>Role</label>
+
+                    <select>
+                      <option>Service Owner</option>
+                      <option>Operations Lead</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label>Email</label>
+                    <input value="john.doe@bank.com" />
+                  </div>
+
+                  <div class="field">
+                    <label>Phone</label>
+                    <input value="(212) 555-1234" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- BACKUP -->
+              <div class="section">
+                <h4>Backup Personnel</h4>
+
+                <div class="form-grid">
+                  <div class="field">
+                    <label>Backup Person</label>
+
+                    <select>
+                      <option>Jane Smith</option>
+                      <option>Robert Green</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label>Role</label>
+
+                    <select>
+                      <option>Backup Owner</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label>Email</label>
+                    <input value="jane.smith@bank.com" />
+                  </div>
+
+                  <div class="field">
+                    <label>Phone</label>
+                    <input value="(212) 555-5678" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- CHECKBOX -->
+              <div class="checkbox">
+                <input type="checkbox" checked />
+                <span>
+                  I confirm the key personnel information is accurate.
+                </span>
+              </div>
+
+              <!-- BUTTONS -->
+              <div class="actions">
+                <button class="btn btn-outline">Cancel</button>
+
+                <button class="btn btn-secondary">Save Draft</button>
+
+                <button class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
